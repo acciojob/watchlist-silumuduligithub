@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Director extends Movie{
+public class Director{
     private String name;
     private int numberOfMovies;
-    private double imdbRatting;
+    private double imdbRating;
 }

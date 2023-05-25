@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Movie {
     private String name;
-    private int durationinMinitues;
-    private double imdbRatting;
+    private int durationInMinutes;
+    private double imdbRating;
 }
