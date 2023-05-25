@@ -22,7 +22,7 @@ public class MovieController {
         movieService.addDirector(director);
         return new ResponseEntity<>("new director added successfully", HttpStatus.OK);
     }
-    @PostMapping("/addMovieDirectorPair")
+    @PutMapping("/addMovieDirectorPair")
     public ResponseEntity<String> addMovieDirectorPair(@RequestParam String movieName, @RequestParam String directorName){
         try {
             movieService.addMovieDirectorPair(movieName, directorName);
@@ -33,7 +33,7 @@ public class MovieController {
             return new ResponseEntity<>("invalid movie name", HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("getMovieByName")
+    @GetMapping("/getMovieByName")
     public ResponseEntity<Movie> getMovieByName(@RequestParam String name) {
         try {
             Movie movie = movieService.getMovieByName(name);
@@ -51,7 +51,7 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/ getMoviesByDirectorName")
+    @GetMapping("/getMoviesByDirectorName")
     public ResponseEntity<List<String>>  getMoviesByDirectorName(@RequestParam String directorName){
         return new ResponseEntity<>(movieService.getMoviesByDirectorName(directorName), HttpStatus.OK);
     }

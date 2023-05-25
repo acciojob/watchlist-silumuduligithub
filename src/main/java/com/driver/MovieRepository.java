@@ -23,20 +23,6 @@ public class MovieRepository {
         directermovieData.put(directorName, al);
     }
 
-    public Optional<Movie> getMovieByName(String name) {
-        if(movieData.containsKey(name)){
-            return Optional.of(movieData.get(name));
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Director> getDirectorByName(String directorName) {
-        if(directorData.containsKey(directorName)){
-            return Optional.of(directorData.get(directorName));
-        }
-        return Optional.empty();
-    }
-
     public List<String> getMoviesByDirectorName(String directorName) {
         return directermovieData.getOrDefault(directorName, new ArrayList<>());
     }
