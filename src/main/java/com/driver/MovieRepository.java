@@ -32,6 +32,7 @@ public class MovieRepository {
     }
 
     public void deleteDirector(String directorName) {
+        directermovieData.remove(directorName);
         directorData.remove(directorName);
     }
 
