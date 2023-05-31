@@ -1,63 +1,61 @@
 package com.driver;
 
-import org.springframework.stereotype.Repository;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
 
-@Repository
 public class MovieRepository {
-    private Map<String, Movie> movieData = new HashMap<>();
-    private Map<String, Director> directorData = new HashMap<>();
-    private Map<String, ArrayList<String>> directermovieData = new HashMap<>();
-    public void add(Movie movie) {
-        movieData.put(movie.getName(), movie);
+    private Map<String, Movie> moviesData = new HashMap<>();
+    private Map<String, Director> directorsData = new HashMap<>();
+    private Map<String, List<String>> moviesWithDirectorMap = new HashMap<>();
+
+    public void addMovie(Movie movie) {
+        moviesData.put(movie.getName(), movie);
     }
 
-    public void add(Director director) {
-        directorData.put(director.getName(), director);
+    public void addDirector(Director director) {
+        directorsData.put(director.getName(), director);
     }
 
-    public void add(String movieName, String directorName) {
-        ArrayList<String> al = directermovieData.getOrDefault(directorName, new ArrayList<>());
-        al.add(movieName);
-        directermovieData.put(directorName, al);
+    public void addMovieDirectorPair(String movie, String director) {
+        List<String> temp = moviesWithDirectorMap.getOrDefault(director, new ArrayList<>());
+        temp.add(movie);
+        moviesWithDirectorMap.put(director, temp);
     }
 
-    public List<String> getMoviesByDirectorName(String directorName) {
-        return directermovieData.getOrDefault(directorName, new ArrayList<>());
+    public Movie getMovieByName(String name) {
+        return moviesData.getOrDefault(name, new Movie());
+    }
+
+    public Director getDirectorByName(String name) {
+        return directorsData.getOrDefault(name, new Director());
+    }
+
+    public List<String> getMoviesByDirectorName(String director) {
+        return moviesWithDirectorMap.getOrDefault(director, new ArrayList<>());
     }
 
     public List<String> findAllMovies() {
-        return new ArrayList<>(movieData.keySet());
+        return new ArrayList<>(moviesData.keySet());
     }
 
-    public void deleteDirector(String directorName) {
-        directermovieData.remove(directorName);
-        directorData.remove(directorName);
+    public void deleteDirectorByName(String director) {
+        for (String movie : moviesWithDirectorMap.getOrDefault(director, new ArrayList<>())) {
+            moviesData.remove(movie);
+        }
+        moviesWithDirectorMap.remove(director);
+        directorsData.remove(director);
     }
 
     public void deleteAllDirectors() {
-    }
-
-    public Optional<Movie> getMovie(String movieName) {
-        if(movieData.containsKey(movieName)){
-            return Optional.of(movieData.get(movieName));
+        Set<String> directors = directorsData.keySet();
+        for (String director : directors) {
+            deleteDirectorByName(director);
         }
-        return Optional.empty();
-    }
-
-    public Optional<Director> getDirector(String directorName) {
-        if(directorData.containsKey(directorName)){
-            return Optional.of(directorData.get(directorName));
-        }
-        return Optional.empty();
-    }
-
-    public void deleteMovie(String movie) {
-        movieData.remove(movie);
-    }
-
-    public List<String> getDirectors() {
-        return new ArrayList<>(directorData.keySet());
+        directors.clear();;
+        moviesWithDirectorMap.clear();
     }
 }
